@@ -1,0 +1,11 @@
+# Copy, or link, this file to /etc/dnf/libdnf5-plugins/actions.d/oci.actions
+# The name of the file is not important, but the path to the actions.d directory is.
+#
+# Make sure `oci_repos_configured.sh` and `oci_goal_resolved.sh` are in the PATH of the user running
+# dnf, usually root.
+#
+# This action is responsible for downloading the repodata from OCI.
+repos_configured:::enabled=1 mode=plain raise_error=1:oci_repos_configured.sh ${conf.cachedir} ${conf.*.baseurl} ${conf.*.enabled}
+#
+# This action downloads each RPM marked for installation. It is called once per RPM.
+goal_resolved:*:in:enabled=1 mode=plain raise_error=1:oci_goal_resolved.sh ${tmp.oci_repos} ${pkg.repo_id} ${pkg.location}
