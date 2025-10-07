@@ -13,6 +13,9 @@ d="$(echo "$@" | tr " " "\n" | tr "," "\n" | yq -p props -o json -I 0 "${SCRIPT}
 oci_repos=()
 output=()
 
+# No OCI repositories found
+[[ -z "$d" ]] && exit 0
+
 # Now, for each repo, download the repodata
 while IFS= read -r line; do
     # Example line:
@@ -49,4 +52,3 @@ done <<< "${d}"
 
 echo "${output[@]}"
 echo "tmp.oci_repos=$(printf "${oci_repos[*]}" | tr ' ' ',')"
-
