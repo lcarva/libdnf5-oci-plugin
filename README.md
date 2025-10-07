@@ -39,8 +39,14 @@ If you want to try this out (have I mentioned this is experimental?!?):
 1. Install the actions plugin: `sudo dnf install libdnf5-plugin-actions`.
 1. Install `oras`: `sudo dnf install golang-oras`.
 1. Install `yq`: `sudo dnf install yq`.
-1. Add `oci_repos_configured.sh` and `oci_goal_resolved.sh` somewhere in the `root` user's `PATH`.
+1. Add `oci_repos_configured.sh` and `oci_goal_resolved.sh` somewhere in the `root` user's `PATH`, e.g.:
+
+   ```bash
+   sudo ln -s `pwd`/oci*.sh /usr/local/bin/
+   ```
+
 1. Link the actions file:
+
    ```bash
    sudo ln -s `pwd`/oci.actions /etc/dnf/libdnf5-plugins/actions.d/
    ```
