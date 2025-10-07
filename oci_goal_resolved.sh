@@ -8,8 +8,13 @@ RPM_NAME="$3"
 # TODO: This is probably not gonna work for repo names with dots in them. Is that allowed?
 REPO_CACHE="$(
     echo "${OCI_REPOS}" | tr "," "\n" |
-    REPO_ID="${REPO_ID}" yq -p props -I 0 --exit-status '.[env(REPO_ID)]' \
+    REPO_ID="${REPO_ID}" yq -p props -I 0 '.[env(REPO_ID)]' \
 )"
+
+if [[ "${REPO_CACHE}" == 'null' ]]; then
+    # The package is being installed from a non-oci repo, skip further processing.
+    exit 0
+fi
 
 MANIFEST_PATH="${REPO_CACHE}/oci/manifest.json"
 OCI_REPO="$(< "${REPO_CACHE}/oci/repo")"
